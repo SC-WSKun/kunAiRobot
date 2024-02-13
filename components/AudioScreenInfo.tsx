@@ -14,6 +14,7 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
     }
 ) => {
   const [isPressed, setIsPressed] = useState(false);
+  const [userSpeech, setUserSpeech] = useState("");
   const startRecord = () => {
     console.log("start record");
     Voice.start("zh-CN")
@@ -55,7 +56,7 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
   }, []);
   return (
     <View style={styles.container}>
-      <Text>hello</Text>
+      <Text style={styles.userSpeech}>{userSpeech}</Text>
       <Pressable
         style={isPressed ? styles.microBtnPressed : styles.microBtn}
         onPressIn={startRecord}
@@ -66,7 +67,6 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
           style={styles.microIcon}
         ></Image>
       </Pressable>
-      <Text>hello2</Text>
     </View>
   );
 };
@@ -78,14 +78,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    userSpeech: {
+        width: 300,
+        height: 100,
+        borderRadius: 10,
+        backgroundColor: "lightgray",
+        marginBottom: 20,
+    },
     microIcon: {
-        width: 50,
-        height: 50,
+        width: 60,
+        height: 60
     },
     microBtn: {
-        width: 50,
-        height: 50,
+        width: 80,
+        height: 80,
         backgroundColor: "blue",
+        borderRadius: 40,
+        alignItems: "center",
+        justifyContent: "center",
     },
     microBtnPressed: {
         backgroundColor: "red",
