@@ -5,21 +5,22 @@ import { View, Text } from "@/components/Themed";
 import { Image } from "expo-image";
 
 interface AudioScreenInfoProps {
-    // TODO: Add props here
+  // TODO: Add props here
 }
 
 const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
-    {
-        /* TODO: Destructure props here */
-    }
+  {
+    /* TODO: Destructure props here */
+  },
 ) => {
   const [isPressed, setIsPressed] = useState(false);
   const [userSpeech, setUserSpeech] = useState("");
+  const [robotAnswer, setRobotAnswer] = useState("");
   const startRecord = () => {
     console.log("start record");
     Voice.start("zh-CN")
       .then((e) => console.log(e))
-      .catch((err) => console.log("speech error:",err));
+      .catch((err) => console.log("speech error:", err));
     setIsPressed(true);
   };
 
@@ -39,6 +40,7 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
 
   const onSpeechResultsHandler = (event: any) => {
     console.log("Speech results", event.value);
+    setUserSpeech(event.value[0]);
   };
 
   const onSpeechErrorHandler = (event: any) => {
@@ -57,8 +59,12 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
   return (
     <View style={styles.container}>
       <Text style={styles.userSpeech}>{userSpeech}</Text>
+      <Text style={styles.robotAnswer}>{robotAnswer}</Text>
       <Pressable
-        style={isPressed ? styles.microBtnPressed : styles.microBtn}
+        style={{
+          ...styles.microBtn,
+          ...(isPressed ? styles.microBtnPressed : undefined),
+        }}
         onPressIn={startRecord}
         onPressOut={stopRecord}
       >
@@ -71,35 +77,43 @@ const AudioScreenInfo: React.FC<AudioScreenInfoProps> = (
   );
 };
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    userSpeech: {
-        width: 300,
-        height: 100,
-        borderRadius: 10,
-        backgroundColor: "lightgray",
-        marginBottom: 20,
-    },
-    microIcon: {
-        width: 60,
-        height: 60
-    },
-    microBtn: {
-        width: 80,
-        height: 80,
-        backgroundColor: "blue",
-        borderRadius: 40,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    microBtnPressed: {
-        backgroundColor: "red",
-    },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  userSpeech: {
+    width: 300,
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: "lightgray",
+    marginBottom: 20,
+    padding: 10,
+  },
+  robotAnswer: {
+    width: 300,
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: "lightgray",
+    padding: 10,
+    marginBottom: 100,
+  },
+  microIcon: {
+    width: 60,
+    height: 60,
+  },
+  microBtn: {
+    width: 80,
+    height: 80,
+    backgroundColor: "blue",
+    borderRadius: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  microBtnPressed: {
+    backgroundColor: "red",
+  },
 });
 
 export default AudioScreenInfo;
